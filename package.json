@@ -1,0 +1,42 @@
+{
+  "name": "cross-domain-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run proxy & npm run server1 & npm run server2",
+    "proxy": "node proxy.js",
+    "server1": "node server1/main.js",
+    "server2": "node server2/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calimanco/cross-domain-demo.git"
+  },
+  "keywords": [
+    "cross-domain",
+    "demo"
+  ],
+  "author": "calimanco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/calimanco/cross-domain-demo/issues"
+  },
+  "homepage": "https://github.com/calimanco/cross-domain-demo#readme",
+  "devDependencies": {
+    "@prettier/plugin-pug": "^1.15.2",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "prettier": "^2.3.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-proxy": "^1.18.1",
+    "pug": "^3.0.2"
+  }
+}

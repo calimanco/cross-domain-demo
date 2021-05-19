@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>WindowHash</title>
+    <link rel="stylesheet" href="/global.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">WindowHash</h1>
+      <p>
+        This example will not hide or remove the dynamically generated iframe.
+      </p>
+      <div class="case-container">
+        <ul>
+          <li id="get1">
+            <p>The message will be written in URL query.</p>
+            <label>
+              message：
+              <input type="text" value="hello" />
+            </label>
+            <button>GET</button>
+          </li>
+          <li id="post1">
+            <p>The message will be written in HTTP body.</p>
+            <label>
+              message：
+              <input type="text" value="hello" />
+            </label>
+            <button>POST</button>
+          </li>
+        </ul>
+      </div>
+      <div class="log-container"></div>
+    </div>
+    <script src="/utils.js"></script>
+    <script src="request-WindowHash.js" defer></script>
+    <script>
+      const requestName = 'WindowHash'
+      document.querySelector('#get1 button').addEventListener('click', () => {
+        const inputElem = document.querySelector('#get1 input')
+        logTyping('GET sending...')
+        request('GET', `http://api.demo.com/${requestName}`, {
+          message: inputElem.value
+        }).then(res => {
+          logTyping(`${requestName} Success!`)
+          logTyping(JSON.stringify(res))
+        })
+      })
+      document.querySelector('#post1 button').addEventListener('click', () => {
+        const inputElem = document.querySelector('#post1 input')
+        logTyping('POST sending...')
+        request('POST', `http://api.demo.com/${requestName}`, {
+          message: inputElem.value
+        }).then(res => {
+          logTyping(`${requestName} Success!`)
+          logTyping(JSON.stringify(res))
+        })
+      })
+    </script>
+  </body>
+</html>

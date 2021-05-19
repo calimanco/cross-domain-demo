@@ -1,0 +1,22 @@
+extends layout.pug
+
+block head
+  title SubHostProxy Proxy Page
+
+block content
+  p This is a proxy page for SubHostProxy, which is running in server2.
+  p#domain
+  p#count
+
+block scripts
+  script(src='http://demo.com/xhr.js')
+  script.
+    document.domain = "demo.com";
+    document.getElementById("domain").innerText = `The domain is set to ${document.domain}.`;
+    const countElem = document.getElementById("count");
+    let count = 0;
+    countElem.innerText = `Number of requests: ${count}`;
+    document.addEventListener("request", function (e) {
+      count += 1;
+      countElem.innerText = `Number of requests: ${count}`;
+    });
