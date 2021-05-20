@@ -8,4 +8,4 @@ block content
 
 block scripts
   script.
-    window.parent.location.replace(`#{refererUrl}!{'#'}!{data}`);
+    window.parent.location.replace(`#{refererUrl}!{'#'}!{encodeURIComponent(JSON.stringify(res))}`);

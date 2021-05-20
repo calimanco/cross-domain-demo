@@ -11,4 +11,4 @@ block scripts
   script.
     document.domain = 'demo.com'
     document.getElementById('domain').innerText = `The domain is set to ${document.domain}.`
-    window.parent.#{callbackFn}(#{callbackId}, `!{data}`)
+    window.parent.#{callbackFn}(#{statusCode}, !{JSON.stringify(data)})

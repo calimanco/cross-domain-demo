@@ -22,28 +22,10 @@ block scripts
         method,
         url,
         data,
-      })
-        .then(res => {
-          event.source.postMessage(
-            Object.assign(
-              {
-                msgId,
-                errMsg: "",
-              },
-              res
-            ),
-            targetOrigin
-          );
-          count += 1;
-          countElem.innerText = `Number of requests: ${count}`;
-        })
-        .catch(err => {
-          event.source.postMessage(
-            {
-              msgId,
-              errMsg: err.message,
-            },
-            targetOrigin
-          );
-        });
+      }).then(res => {
+        res.data.msgId = msgId;
+        event.source.postMessage(res, targetOrigin);
+        count += 1;
+        countElem.innerText = `Number of requests: ${count}`;
+      });
     });

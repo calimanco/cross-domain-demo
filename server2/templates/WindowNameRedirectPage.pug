@@ -8,7 +8,7 @@ block content
 
 block scripts
   script.
-    window.name = `!{data}`;
+    window.name = `!{JSON.stringify(res)}`;
     setTimeout(() => {
       window.location.replace("#{redirect}");
     });

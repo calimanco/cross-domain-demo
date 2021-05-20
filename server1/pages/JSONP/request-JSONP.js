@@ -1,12 +1,16 @@
 function initJSONPCallback() {
   const cbStore = {}
   return {
-    run: function (callbackId, data, errMsg) {
-      if (errMsg != null && errMsg !== '') {
-        cbStore[callbackId].reject(new Error(errMsg))
+    run: function (statusCode, data) {
+      const { callbackId, msg } = data
+      // Process error
+      if (statusCode.toString() !== '1') {
+        cbStore[callbackId].reject(new Error(msg))
+        return
       }
+      // Process success
       try {
-        cbStore[callbackId].resolve(data)
+        cbStore[callbackId].resolve({ msg })
       } finally {
         delete cbStore[callbackId]
       }

@@ -30,12 +30,14 @@ function initMessageListener() {
     if (event.origin !== targetOrigin) {
       return
     }
-    const { msgId, errMsg, msg } = event.data
-
-    if (errMsg != null && errMsg !== '') {
-      cbStore[msgId].reject(new Error(errMsg))
+    const { statusCode, data } = event.data
+    const { msgId, msg } = data
+    // Process error
+    if (statusCode.toString() !== '1') {
+      cbStore[msgId].reject(new Error(msg))
+      return
     }
-
+    // Process success
     try {
       cbStore[msgId].resolve({
         msg
@@ -61,21 +63,21 @@ const messageListener = initMessageListener()
 function request(method = 'GET', url, data = null) {
   return initPostMessage().then(iframe => {
     return new Promise((resolve, reject) => {
-      const id = (Math.floor(Math.random() * 10000) + 1).toString()
+      const msgId = (Math.floor(Math.random() * 10000) + 1).toString()
       if (method === 'GET' && data != null) {
         // eslint-disable-next-line no-undef
         url += '?' + serializedParams(data)
       }
       iframe.contentWindow.postMessage(
         {
-          msgId: id,
+          msgId,
           method,
           url,
           data
         },
         targetOrigin
       )
-      messageListener.set(id, resolve, reject)
+      messageListener.set(msgId, resolve, reject)
     })
   })
 }

@@ -13,7 +13,7 @@
 - [x] SubHostProxy（子域名代理）
 - [x] WindowHash
 - [x] WindowName
-- [ ] PostMessage
+- [x] PostMessage
 - [ ] CORS
 
 ## 安装
@@ -54,7 +54,7 @@ npm run server2
 ## 服务器布局
 
 本项目共包含三个服务器，均使用 NodeJS 开发，无需依赖其他容器或服务。  
-基本流程是访问 `demo.com` 的页面，页面将请求 `api.demo.com` 的接口，要完成请求就必须进行跨域操作。  
+基本流程是访问 `demo.com` 的页面，页面将请求 `api.demo.com` 的接口，要完成请求就必须进行跨域操作。
 
 - proxy  
   反向代理服务器，监听本地 80 端口，用于将不同域名指向另外两个服务。
@@ -62,7 +62,7 @@ npm run server2
   Web 服务器，监听本地 3000 端口，演示域名为 `demo.com` ，提供静态页面和资源。
 - server2  
   API 服务器，监听本地 4000 端口，演示域名为 `api.demo.com` ，包含 Pug 模板渲染器，提供接口供页面调用。
-  
+
 ![server-layout](https://calimanco.github.io/cross-domain-demo/server-layout.png)
 
 ## 目录结构

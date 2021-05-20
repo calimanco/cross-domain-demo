@@ -1,16 +1,24 @@
 function initMockFormCallback() {
   const cbStore = {}
   return {
-    run: function (id, data) {
+    run: function (statusCode, data) {
+      const { callbackId, msg } = data
+      // Process error
+      if (statusCode.toString() !== '1') {
+        cbStore[callbackId].reject(new Error(msg))
+        return
+      }
+      // Process success
       try {
-        cbStore[id](JSON.parse(data))
+        cbStore[callbackId].resolve({ msg })
       } finally {
-        delete cbStore[id]
+        delete cbStore[callbackId]
       }
     },
-    set: function (id, resolve) {
-      cbStore[id] = function (data) {
-        resolve(data)
+    set: function (callbackId, resolve, reject) {
+      cbStore[callbackId] = {
+        resolve,
+        reject
       }
     }
   }
@@ -23,11 +31,11 @@ window.MFCb = MockFormCallback.run
 // eslint-disable-next-line no-unused-vars
 function request(method = 'GET', url, data = null) {
   return new Promise((resolve, reject) => {
-    const id = (Math.floor(Math.random() * 10000) + 1).toString()
+    const callbackId = (Math.floor(Math.random() * 10000) + 1).toString()
     // Create iframe.
     // In actual use, the iframe needs to be hidden.
     const iframe = document.createElement('iframe')
-    iframe.name = id
+    iframe.name = callbackId
     iframe.onerror = function (error) {
       reject(error)
     }
@@ -35,12 +43,12 @@ function request(method = 'GET', url, data = null) {
     const form = document.createElement('form')
     form.action = url
     form.method = method
-    form.target = id
+    form.target = callbackId
     form.hidden = true
     // Add data.
     const finalData = Object.assign({}, data, {
       callbackFn: 'MFCb',
-      callbackId: id
+      callbackId
     })
     for (const i of Object.keys(finalData)) {
       const inputElement = document.createElement('input')
@@ -52,7 +60,7 @@ function request(method = 'GET', url, data = null) {
     document.body.appendChild(iframe)
     document.body.appendChild(form)
     // Set callback function
-    MockFormCallback.set(id, resolve)
+    MockFormCallback.set(callbackId, resolve, reject)
     // Submit the form, which will initiate a request.
     form.submit()
   })

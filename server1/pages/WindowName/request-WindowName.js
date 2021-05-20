@@ -10,16 +10,19 @@ function request(method = 'GET', url, data = null) {
       reject(error)
     }
     iframe.onload = function () {
-      const name = iframe.contentWindow.name
-      if (name) {
-        try {
-          // eslint-disable-next-line no-undef
-          console.log(decodeURIComponent(name))
-          const result = JSON.parse(decodeURIComponent(name))
-          resolve(result)
-        } catch (err) {
-          reject(err)
+      const res = iframe.contentWindow.name
+      if (res) {
+        const { statusCode, data } = JSON.parse(res)
+        const { msg } = data
+        // Process error
+        if (statusCode.toString() !== '1') {
+          reject(new Error(msg))
+          return
         }
+        // Process success
+        resolve({
+          msg
+        })
       }
     }
     // Create form.
