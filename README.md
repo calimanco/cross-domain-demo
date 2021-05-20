@@ -49,6 +49,8 @@ npm run server2
 
 打开浏览器访问 `demo.com`。
 
+![index](https://calimanco.github.io/cross-domain-demo/index.png)
+
 ## 服务器布局
 
 本项目共包含三个服务器，均使用 NodeJS 开发，无需依赖其他容器或服务。  
@@ -61,6 +63,8 @@ npm run server2
 - server2  
   API 服务器，监听本地 4000 端口，演示域名为 `api.demo.com` ，包含 Pug 模板渲染器，提供接口供页面调用。
   
+![server-layout](https://calimanco.github.io/cross-domain-demo/server-layout.png)
+
 ## 目录结构
 
 ```text
