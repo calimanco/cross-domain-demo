@@ -3,10 +3,11 @@ const router = express.Router()
 
 router.get('/JSONP', (req, res) => {
   const msg = `Your request message is ${req.query.message}`
+  const errMsg = ''
   return res.end(
-    `${req.query.cbName}(${req.query.cbId},${JSON.stringify({
+    `${req.query.callbackFn}(${req.query.callbackId},${JSON.stringify({
       msg
-    })})`
+    })}, '${errMsg}')`
   )
 })
 
@@ -89,6 +90,24 @@ router.post('/WindowHash', (req, res) => {
       callbackId: req.body.callbackId,
       msg
     })
+  })
+})
+
+router.get('/PostMessage/proxyPage', (req, res) => {
+  return res.render('PostMessageProxyPage.pug')
+})
+
+router.get('/PostMessage', (req, res) => {
+  const msg = `Your request message is ${req.query.message}`
+  return res.json({
+    msg
+  })
+})
+
+router.post('/PostMessage', (req, res) => {
+  const msg = `Your request message is ${req.body.message}`
+  return res.json({
+    msg
   })
 })
 

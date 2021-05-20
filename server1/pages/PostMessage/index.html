@@ -7,16 +7,15 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>SubHostProxy（子域名代理）</title>
+    <title>PostMessage</title>
     <link rel="stylesheet" href="/global.css" />
   </head>
   <body>
     <div class="container">
-      <h1 class="title">SubHostProxy（子域名代理）</h1>
+      <h1 class="title">PostMessage</h1>
       <p>
         This example will not hide or remove the dynamically generated iframe.
       </p>
-      <p>The domain is set to demo.com.</p>
       <div class="case-container">
         <ul>
           <li id="get1">
@@ -40,10 +39,9 @@
       <div class="log-container"></div>
     </div>
     <script src="/utils.js"></script>
-    <script src="request-SubHostProxy.js" defer></script>
+    <script src="request-PostMessage.js" defer></script>
     <script>
-      const requestName = 'SubHostProxy'
-      document.domain = 'demo.com'
+      const requestName = 'PostMessage'
       document.querySelector('#get1 button').addEventListener('click', () => {
         const inputElem = document.querySelector('#get1 input')
         logTyping('GET sending...')

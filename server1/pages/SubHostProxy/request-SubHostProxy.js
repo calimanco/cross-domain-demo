@@ -30,6 +30,10 @@ const event = new Event('request')
 function request(method = 'GET', url, data = null) {
   return initSubHostProxy().then(iframe => {
     iframe.contentDocument.dispatchEvent(event)
+    if (method === 'GET' && data != null) {
+      // eslint-disable-next-line no-undef
+      url += '?' + serializedParams(data)
+    }
     return iframe.contentWindow.xhr({
       method,
       url,

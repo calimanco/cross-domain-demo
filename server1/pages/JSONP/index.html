@@ -34,9 +34,9 @@
       document.querySelector('#get1 button').addEventListener('click', () => {
         const inputElem = document.querySelector('#get1 input')
         logTyping('GET sending...')
-        request(
-          `http://api.demo.com/${requestName}?message=${inputElem.value}`
-        ).then(res => {
+        request('GET', `http://api.demo.com/${requestName}`, {
+          message: inputElem.value
+        }).then(res => {
           logTyping(`${requestName} Success!`)
           logTyping(JSON.stringify(res))
         })
