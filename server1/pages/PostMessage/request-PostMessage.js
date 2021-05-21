@@ -12,10 +12,16 @@ function initPostMessage() {
     iframe.id = 'proxyIframe'
     // Link to proxy page.
     iframe.src = 'http://api.demo.com/PostMessage/proxyPage'
-    iframe.onerror = function (error) {
-      reject(error)
-    }
-    iframe.onload = function () {
+    // This iframe‘s domain is different from web page, so we can't catch any error from it.
+    iframe.onload = function (event) {
+      // We cannot get accurate server status.
+      if (event.target.contentWindow.length === 0) {
+        reject(new Error('Network error.'))
+        setTimeout(() => {
+          initPostMessagePromise = null
+        })
+        return
+      }
       resolve(iframe)
     }
     // In actual use, the iframe tag needs to be removed after the request.
@@ -30,18 +36,21 @@ function initMessageListener() {
     if (event.origin !== targetOrigin) {
       return
     }
-    const { statusCode, data } = event.data
+    const { status, statusText, response } = event.data
+    const { statusCode, data } = response
     const { msgId, msg } = data
-    // Process error
-    if (statusCode.toString() !== '1') {
-      cbStore[msgId].reject(new Error(msg))
-      return
-    }
-    // Process success
     try {
-      cbStore[msgId].resolve({
-        msg
-      })
+      // Process error
+      if (status.toString() !== '200') {
+        cbStore[msgId].reject(new Error(statusText))
+        return
+      }
+      if (statusCode.toString() !== '1') {
+        cbStore[msgId].reject(new Error(msg))
+        return
+      }
+      // Process success
+      cbStore[msgId].resolve({ msg })
     } finally {
       delete cbStore[msgId]
     }

@@ -6,11 +6,13 @@ function request(method = 'GET', url, data = null) {
     // In actual use, the iframe needs to be hidden.
     const iframe = document.createElement('iframe')
     iframe.name = id
-    iframe.onerror = function (error) {
-      reject(error)
-    }
-    iframe.onload = function () {
-      const res = iframe.contentWindow.name
+    iframe.onload = function (event) {
+      // We cannot get accurate server status.
+      if (event.target.contentWindow.length === 0) {
+        reject(new Error('Network error.'))
+        return
+      }
+      const res = event.target.contentWindow.name
       if (res) {
         const { statusCode, data } = JSON.parse(res)
         const { msg } = data

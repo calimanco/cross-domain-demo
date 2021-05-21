@@ -11,10 +11,15 @@ function initSubHostProxy() {
     iframe.id = 'proxyIframe'
     // Link to proxy page.
     iframe.src = 'http://api.demo.com/SubHostProxy/proxyPage'
-    iframe.onerror = function (error) {
-      reject(error)
-    }
-    iframe.onload = function () {
+    iframe.onload = function (event) {
+      // We cannot get accurate server status.
+      if (event.target.contentWindow.length === 0) {
+        reject(new Error('Network error.'))
+        setTimeout(() => {
+          initSubHostProxyPromise = null
+        })
+        return
+      }
       resolve(iframe)
     }
     // In actual use, the iframe tag needs to be removed after the request.
@@ -43,15 +48,19 @@ function request(method = 'GET', url, data = null) {
     })
     .then(res => {
       return new Promise((resolve, reject) => {
-        const { statusCode, data } = res
-        const { msg } = data
+        const { status, statusText, response } = res
+        const { statusCode, data } = response
         // Process error
+        if (status.toString() !== '200') {
+          reject(new Error(statusText))
+          return
+        }
         if (statusCode.toString() !== '1') {
-          reject(new Error(msg))
+          reject(new Error(data.msg))
           return
         }
         // Process success
-        resolve({ msg })
+        resolve({ msg: data.msg })
       })
     })
 }

@@ -23,7 +23,10 @@ block scripts
         url,
         data,
       }).then(res => {
-        res.data.msgId = msgId;
+        res.response.data = {
+          ...res.response.data,
+          msgId,
+        };
         event.source.postMessage(res, targetOrigin);
         count += 1;
         countElem.innerText = `Number of requests: ${count}`;

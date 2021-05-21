@@ -20,11 +20,20 @@ function encode(val) {
 }
 
 // eslint-disable-next-line no-unused-vars
-function logTyping(str) {
+function logTyping(str, theme = 'normal') {
   const logContainer = document.getElementsByClassName('log-container')[0]
   const p = document.createElement('p')
   p.innerText = str
-  p.className = 'log-container-text'
+  switch (theme) {
+    case 'normal':
+      p.className = 'log-container-text'
+      break
+    case 'error':
+      p.className = 'log-container-text error'
+      break
+    case 'success':
+      p.className = 'log-container-text success'
+  }
   logContainer.appendChild(p)
   logContainer.scrollTop = logContainer.scrollHeight
 }

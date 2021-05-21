@@ -16,16 +16,14 @@ function initHashListener() {
       decodeURIComponent(hash.replace('#', ''))
     )
     const { callbackId, msg } = data
-    // Process error
-    if (statusCode.toString() !== '1') {
-      cbStore[callbackId].reject(new Error(msg))
-      return
-    }
-    // Process success
     try {
-      cbStore[callbackId].resolve({
-        msg
-      })
+      // Process error
+      if (statusCode.toString() !== '1') {
+        cbStore[callbackId].reject(new Error(msg))
+        return
+      }
+      // Process success
+      cbStore[callbackId].resolve({ msg })
     } finally {
       delete cbStore[callbackId]
     }
@@ -51,8 +49,11 @@ function request(method = 'GET', url, data = null) {
     // In actual use, the iframe needs to be hidden.
     const iframe = document.createElement('iframe')
     iframe.name = callbackId
-    iframe.onerror = function (error) {
-      reject(error)
+    iframe.onload = function (event) {
+      // We cannot get accurate server status.
+      if (event.target.contentWindow.length === 0) {
+        reject(new Error('Network error.'))
+      }
     }
     // Create form.
     const form = document.createElement('form')

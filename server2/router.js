@@ -1,6 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
+router.get('/error', (req, res) => {
+  res.statusCode = 500
+  return res.end()
+})
+
 router.get('/JSONP', (req, res) => {
   const msg = `Your request message is ${req.query.message}`
   const statusCode = '1'

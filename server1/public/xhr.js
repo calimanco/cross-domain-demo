@@ -49,7 +49,11 @@ function xhr(config) {
         return
       }
 
-      resolve(request.response)
+      resolve({
+        status: request.status,
+        statusText: request.statusText,
+        response: request.response || {}
+      })
     }
 
     request.onerror = function handleError() {

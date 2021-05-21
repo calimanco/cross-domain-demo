@@ -34,6 +34,10 @@
             </label>
             <button>POST</button>
           </li>
+          <li id="get2">
+            <p>Request a API that will return 500.</p>
+            <button>GET Error</button>
+          </li>
         </ul>
       </div>
       <div class="log-container"></div>
@@ -44,23 +48,39 @@
       const requestName = 'WindowHash'
       document.querySelector('#get1 button').addEventListener('click', () => {
         const inputElem = document.querySelector('#get1 input')
-        logTyping('GET sending...')
+        logTyping(`${requestName} GET sending...`)
         request('GET', `http://api.demo.com/${requestName}`, {
           message: inputElem.value
-        }).then(res => {
-          logTyping(`${requestName} Success!`)
-          logTyping(JSON.stringify(res))
         })
+          .then(res => {
+            logTyping(JSON.stringify(res), 'success')
+          })
+          .catch(err => {
+            logTyping(err.message, 'error')
+          })
       })
       document.querySelector('#post1 button').addEventListener('click', () => {
         const inputElem = document.querySelector('#post1 input')
-        logTyping('POST sending...')
+        logTyping(`${requestName} POST sending...`)
         request('POST', `http://api.demo.com/${requestName}`, {
           message: inputElem.value
-        }).then(res => {
-          logTyping(`${requestName} Success!`)
-          logTyping(JSON.stringify(res))
         })
+          .then(res => {
+            logTyping(JSON.stringify(res), 'success')
+          })
+          .catch(err => {
+            logTyping(err.message, 'error')
+          })
+      })
+      document.querySelector('#get2 button').addEventListener('click', () => {
+        logTyping(`${requestName} GET sending...`)
+        request('GET', `http://api.demo.com/error`)
+          .then(res => {
+            logTyping(JSON.stringify(res), 'success')
+          })
+          .catch(err => {
+            logTyping(err.message, 'error')
+          })
       })
     </script>
   </body>

@@ -3,13 +3,13 @@ function initJSONPCallback() {
   return {
     run: function (statusCode, data) {
       const { callbackId, msg } = data
-      // Process error
-      if (statusCode.toString() !== '1') {
-        cbStore[callbackId].reject(new Error(msg))
-        return
-      }
-      // Process success
       try {
+        // Process error
+        if (statusCode.toString() !== '1') {
+          cbStore[callbackId].reject(new Error(msg))
+          return
+        }
+        // Process success
         cbStore[callbackId].resolve({ msg })
       } finally {
         delete cbStore[callbackId]
@@ -20,6 +20,9 @@ function initJSONPCallback() {
         resolve,
         reject
       }
+    },
+    del: function (callbackId) {
+      delete cbStore[callbackId]
     }
   }
 }
@@ -48,7 +51,9 @@ function request(method = 'GET', url, data = null) {
     script.type = 'text/javascript'
     script.src = url
     script.onerror = function (error) {
-      reject(error)
+      // We cannot get accurate server status.
+      JSONPCallback.del(callbackId)
+      reject(error.message != null ? error : new Error('Network error.'))
     }
     // Set callback function
     JSONPCallback.set(callbackId, resolve, reject)

@@ -41,3 +41,11 @@ a:hover {
 .log-container-text {
   margin: 10px 0;
 }
+
+.log-container-text+.error {
+  color: red;
+}
+
+.log-container-text+.success {
+  color: green;
+}

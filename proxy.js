@@ -30,5 +30,5 @@ const server = http.createServer(function (req, res) {
   res.end()
 })
 
-console.log('Proxy start')
+console.log('Proxy running.')
 server.listen(80)
