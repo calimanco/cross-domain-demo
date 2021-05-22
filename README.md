@@ -18,9 +18,16 @@
 
 ## 安装
 
+克隆到本地。
+
+```bash
+git clone https://github.com/calimanco/cross-origin-demo.git
+cd cross-origin-demo
+```
+
 如果你只是演示用，只安装 dependencies 的包即可。
 
-```
+```bash
 npm install --production
 ```
 
