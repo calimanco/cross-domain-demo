@@ -147,4 +147,49 @@ router.post('/PostMessage', (req, res) => {
   })
 })
 
+const CORSHeader = {
+  'Access-Control-Allow-Origin': 'http://demo.com',
+  'Access-Control-Allow-Methods': ['POST', 'GET', 'OPTIONS'],
+  'Access-Control-Allow-Headers': ['Content-Type']
+}
+
+router.options('/CORS', (req, res) => {
+  for (const i of Object.keys(CORSHeader)) {
+    res.setHeader(i, CORSHeader[i])
+  }
+  res.end()
+})
+
+router.get('/CORS', (req, res) => {
+  const msg = `Your request message is ${req.query.message}`
+  const statusCode = '1'
+  for (const i of Object.keys(CORSHeader)) {
+    res.setHeader(i, CORSHeader[i])
+  }
+  return res.json({
+    statusCode,
+    data: { msg }
+  })
+})
+
+router.post('/CORS', (req, res) => {
+  const msg = `Your request message is ${req.body.message}`
+  const statusCode = '1'
+  for (const i of Object.keys(CORSHeader)) {
+    res.setHeader(i, CORSHeader[i])
+  }
+  return res.json({
+    statusCode,
+    data: { msg }
+  })
+})
+
+router.get('/CORS/error', (req, res) => {
+  res.statusCode = 500
+  for (const i of Object.keys(CORSHeader)) {
+    res.setHeader(i, CORSHeader[i])
+  }
+  return res.end()
+})
+
 module.exports = router

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CORS（跨源资源分享）</title>
+    <link rel="stylesheet" href="/global.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">CORS（跨源资源分享）</h1>
+      <div class="case-container">
+        <ul>
+          <li id="get1">
+            <p>The message will be written in URL query.</p>
+            <p>This is a simple request, so it will not preflight.</p>
+            <label>
+              message：
+              <input type="text" value="hello" />
+            </label>
+            <button>GET</button>
+          </li>
+          <li id="post1">
+            <p>
+              The message will be written in the HTTP body, which is in the
+              format application/x-www-form-urlencoded.
+            </p>
+            <p>This is a simple request, so it will not preflight.</p>
+            <label>
+              message：
+              <input type="text" value="hello" />
+            </label>
+            <button>POST Simple</button>
+          </li>
+          <li id="post2">
+            <p>
+              The message will be written in the HTTP body, which is in the
+              format application/json.
+            </p>
+            <p>This is a complex request, so it will preflight.</p>
+            <label>
+              message：
+              <input type="text" value="hello" />
+            </label>
+            <button>POST Complex</button>
+          </li>
+          <li id="get2">
+            <p>The request cannot be sent due to the same-origin policy.</p>
+            <button>GET Same-Origin Error</button>
+          </li>
+          <li id="get3">
+            <p>Request a API that will return 500.</p>
+            <button>GET Error</button>
+          </li>
+        </ul>
+      </div>
+      <div class="log-container"></div>
+    </div>
+    <script src="/utils.js"></script>
+    <script src="/xhr.js"></script>
+    <script src="request-CORS.js" defer></script>
+    <script>
+      const requestName = 'CORS'
+      document
+        .querySelector('#get1 button')
+        .addEventListener('click', event => {
+          const inputElem = event.target.parentNode.querySelector('#get1 input')
+          logTyping(`${requestName} GET sending...`)
+          request('GET', `http://api.demo.com/${requestName}`, {
+            message: inputElem.value
+          })
+            .then(res => {
+              logTyping(JSON.stringify(res), 'success')
+            })
+            .catch(err => {
+              logTyping(err.message, 'error')
+            })
+        })
+      document
+        .querySelector('#post1 button')
+        .addEventListener('click', event => {
+          const inputElem = event.target.parentNode.querySelector('input')
+          logTyping(`${requestName} POST sending...`)
+          request(
+            'POST',
+            `http://api.demo.com/${requestName}`,
+            {
+              message: inputElem.value
+            },
+            {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          )
+            .then(res => {
+              logTyping(JSON.stringify(res), 'success')
+            })
+            .catch(err => {
+              logTyping(err.message, 'error')
+            })
+        })
+      document
+        .querySelector('#post2 button')
+        .addEventListener('click', event => {
+          const inputElem =
+            event.target.parentNode.querySelector('#post2 input')
+          logTyping(`${requestName} POST sending...`)
+          request('POST', `http://api.demo.com/${requestName}`, {
+            message: inputElem.value
+          })
+            .then(res => {
+              logTyping(JSON.stringify(res), 'success')
+            })
+            .catch(err => {
+              logTyping(err.message, 'error')
+            })
+        })
+      document.querySelector('#get2 button').addEventListener('click', () => {
+        logTyping(`${requestName} GET sending...`)
+        request('GET', `http://api.demo.com/error`)
+          .then(res => {
+            logTyping(JSON.stringify(res), 'success')
+          })
+          .catch(err => {
+            logTyping(err.message, 'error')
+          })
+      })
+      document.querySelector('#get3 button').addEventListener('click', () => {
+        logTyping(`${requestName} GET sending...`)
+        request('GET', `http://api.demo.com/CORS/error`)
+          .then(res => {
+            logTyping(JSON.stringify(res), 'success')
+          })
+          .catch(err => {
+            logTyping(err.message, 'error')
+          })
+      })
+    </script>
+  </body>
+</html>

@@ -4,8 +4,8 @@
 
 ## 简介
 
-本项目可在本地演示下列的跨源（跨域）方案，包含完整代码（前端+后端）。  
-后端主要基于 Express 开发，前端不依赖任何第三方，源码带有完善注释，力求用最直接简洁的方式让使用者学会跨域方案的原理。  
+跨源（跨域）方案的演示集合（下统一称跨源），可在本地演示下列方案，包含前后端完整代码。  
+后端主要基于 Express 开发，前端不依赖任何第三方，源码带有完善注释，力求用最直接简洁的方式让使用者学会跨源方案的原理。  
 配合本人的解析原理的博客文章食用更加：[传送门](https://segmentfault.com/a/1190000014223524) 。
 
 - [x] JSON-P（自填充 JSON）
@@ -14,7 +14,7 @@
 - [x] WindowHash
 - [x] WindowName
 - [x] PostMessage
-- [ ] CORS / Cross-origin resource sharing（跨源资源分享）
+- [x] CORS / Cross-origin resource sharing（跨源资源分享）
 
 ## 安装
 
@@ -54,7 +54,7 @@ npm run server2
 ## 服务器布局
 
 本项目共包含三个服务器，均使用 NodeJS 开发，无需依赖其他容器或服务。  
-基本流程是访问 `demo.com` 的页面，页面将请求 `api.demo.com` 的接口，要完成请求就必须进行跨域操作。
+基本流程是访问 `demo.com` 的页面，页面将请求 `api.demo.com` 的接口，要完成请求就必须进行跨源操作。
 
 - proxy  
   反向代理服务器，监听本地 80 端口，用于将不同域名指向另外两个服务。
@@ -72,17 +72,35 @@ npm run server2
 ├── server1                       // Web 服务器
 │   ├── main.js                   // Web 服务器主文件
 │   ├── pages                     // 页面目录
-│   │   ├── JSONP                 // 每一个跨域方案单独一个目录
-│   │   │   ├── index.html        // 该跨域方法的入口
-│   │   │   └── request-JSONP.js  // 该跨域方法的 Promise 封装
+│   │   ├── JSONP                 // 每一个跨源方案单独一个目录
+│   │   │   ├── index.html        // 该跨源方案的入口
+│   │   │   └── request-JSONP.js  // 该跨源请求方法的 Promise 封装
 │   │   ├── MockForm
 │   │   ├── ...
-│   │   └── index.html            // 首页，会列出所有跨域方案的入口
+│   │   └── index.html            // 首页，会列出所有跨源方案的入口
 │   └── public                    // 静态资源，包含公共的 JS 和 CSS
 └── server2                       // API 服务器
     ├── main.js                   // API 服务器主文件
     ├── router.js                 // 路由集合（接口）
     └── templates                 // 模板目录，render 方法的默认目录
+```
+
+## 关于取得 iframe 加载状态的 hack 方法
+
+由于同源限制，如果 iframe 内是非同源（domain）的页面，父级页面是无法读取 document 的。  
+因此利用 iframe 的 onload 事件检查 iframe 内是否加载完毕是不可靠的。  
+本项目为了解决该问题，给所有 iframe 内页面都加了一个隐藏的 iframe 标签，利用 window.length，来检测页面是否被加载。  
+window.length 返回的是当前页面内 iframe 的数量，如果成功加载，那将返回 1，如果无法加载，则返回 0，此方法缺点就是无法获取准确的服务器状态（服务器返回的状态码），只能统称为"网络错误"。
+
+```javascript
+iframe.onload = function (event) {
+  // We cannot get accurate server status.
+  if (event.target.contentWindow.length === 0) {
+    // We should throw network error here.
+    return
+  }
+  // do something
+}
 ```
 
 ## 提示

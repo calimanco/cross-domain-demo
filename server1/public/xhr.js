@@ -27,6 +27,11 @@ function xhr(config) {
 
     request.open(method.toUpperCase(), url, true)
 
+    // eslint-disable-next-line no-undef
+    if (data != null && headers['Content-Type'] == null) {
+      request.setRequestHeader('Content-Type', 'application/json')
+    }
+
     Object.keys(headers).forEach(name => {
       if (data == null && name.toLowerCase() === 'content-type') {
         delete headers[name]
@@ -34,10 +39,6 @@ function xhr(config) {
         request.setRequestHeader(name, headers[name])
       }
     })
-
-    if (data != null) {
-      request.setRequestHeader('Content-Type', 'application/json')
-    }
 
     request.onreadystatechange = function handleLoad() {
       if (request.readyState !== 4) {
@@ -64,6 +65,10 @@ function xhr(config) {
       reject(new Error('Timeout'))
     }
 
-    request.send(JSON.stringify(data))
+    if (typeof data === 'string') {
+      request.send(data)
+    } else {
+      request.send(JSON.stringify(data))
+    }
   })
 }
