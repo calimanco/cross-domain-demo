@@ -1,10 +1,10 @@
-# cross-domain-demo
+# cross-origin-demo
 
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## 简介
 
-本项目可在本地演示下列的跨域方案，包含完整代码（前端+后端）。  
+本项目可在本地演示下列的跨源（跨域）方案，包含完整代码（前端+后端）。  
 后端主要基于 Express 开发，前端不依赖任何第三方，源码带有完善注释，力求用最直接简洁的方式让使用者学会跨域方案的原理。  
 配合本人的解析原理的博客文章食用更加：[传送门](https://segmentfault.com/a/1190000014223524) 。
 
@@ -14,7 +14,7 @@
 - [x] WindowHash
 - [x] WindowName
 - [x] PostMessage
-- [ ] CORS
+- [ ] CORS / Cross-origin resource sharing（跨源资源分享）
 
 ## 安装
 
@@ -49,7 +49,7 @@ npm run server2
 
 打开浏览器访问 `demo.com`。
 
-![index](https://calimanco.github.io/cross-domain-demo/index.png)
+![index](https://calimanco.github.io/cross-origin-demo/index.png)
 
 ## 服务器布局
 
@@ -63,7 +63,7 @@ npm run server2
 - server2  
   API 服务器，监听本地 4000 端口，演示域名为 `api.demo.com` ，包含 Pug 模板渲染器，提供接口供页面调用。
 
-![server-layout](https://calimanco.github.io/cross-domain-demo/server-layout.png)
+![server-layout](https://calimanco.github.io/cross-origin-demo/server-layout.png)
 
 ## 目录结构
 
