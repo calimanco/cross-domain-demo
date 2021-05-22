@@ -51,6 +51,10 @@ npm run server2
 
 ![index](https://calimanco.github.io/cross-origin-demo/index.png)
 
+点击上面的连接即可进入该跨源方案的案例界面。  
+
+![index](https://calimanco.github.io/cross-origin-demo/page.png)
+
 ## 服务器布局
 
 本项目共包含三个服务器，均使用 NodeJS 开发，无需依赖其他容器或服务。  
