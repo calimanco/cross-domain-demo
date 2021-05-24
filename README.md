@@ -33,7 +33,9 @@ npm install --production
 
 ## 使用
 
-请先将下面内容写入本地 host 文件。
+请先将下面内容写入本地 hosts 文件。  
+Win 系统一般是在 `c:\windows\system32\drivers\etc\hosts`。  
+Mac/Linux 系统一般是在 `/etc/hosts`。
 
 ```text
 127.0.0.1 demo.com
