@@ -46,32 +46,36 @@
     <script src="request-PostMessage.js" defer></script>
     <script>
       const requestName = 'PostMessage'
-      document.querySelector('#get1 button').addEventListener('click', () => {
-        const inputElem = document.querySelector('#get1 input')
-        logTyping(`${requestName} GET sending...`)
-        request('GET', `http://api.demo.com/${requestName}`, {
-          message: inputElem.value
+      document
+        .querySelector('#get1 button')
+        .addEventListener('click', event => {
+          const inputElem = event.target.parentNode.querySelector('input')
+          logTyping(`${requestName} GET sending...`)
+          request('GET', `http://api.demo.com/${requestName}`, {
+            message: inputElem.value
+          })
+            .then(res => {
+              logTyping(JSON.stringify(res), 'success')
+            })
+            .catch(err => {
+              logTyping(err.message, 'error')
+            })
         })
-          .then(res => {
-            logTyping(JSON.stringify(res), 'success')
+      document
+        .querySelector('#post1 button')
+        .addEventListener('click', event => {
+          const inputElem = event.target.parentNode.querySelector('input')
+          logTyping(`${requestName} POST sending...`)
+          request('POST', `http://api.demo.com/${requestName}`, {
+            message: inputElem.value
           })
-          .catch(err => {
-            logTyping(err.message, 'error')
-          })
-      })
-      document.querySelector('#post1 button').addEventListener('click', () => {
-        const inputElem = document.querySelector('#post1 input')
-        logTyping(`${requestName} POST sending...`)
-        request('POST', `http://api.demo.com/${requestName}`, {
-          message: inputElem.value
+            .then(res => {
+              logTyping(JSON.stringify(res), 'success')
+            })
+            .catch(err => {
+              logTyping(err.message, 'error')
+            })
         })
-          .then(res => {
-            logTyping(JSON.stringify(res), 'success')
-          })
-          .catch(err => {
-            logTyping(err.message, 'error')
-          })
-      })
       document.querySelector('#get2 button').addEventListener('click', () => {
         logTyping(`${requestName} GET sending...`)
         request('GET', `http://api.demo.com/error`)
