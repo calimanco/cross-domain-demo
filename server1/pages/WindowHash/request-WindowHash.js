@@ -34,6 +34,9 @@ function initHashListener() {
         resolve,
         reject
       }
+    },
+    del: function (callbackId) {
+      delete cbStore[callbackId]
     }
   }
 }
@@ -52,6 +55,7 @@ function request(method = 'GET', url, data = null) {
     iframe.onload = function (event) {
       // We cannot get accurate server status.
       if (event.target.contentWindow.length === 0) {
+        hashListener.del(callbackId)
         reject(new Error('Network error.'))
       }
     }
