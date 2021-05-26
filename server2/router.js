@@ -9,6 +9,8 @@ router.get('/error', (req, res) => {
 router.get('/JSONP', (req, res) => {
   const msg = `Your request message is ${req.query.message}`
   const statusCode = '1'
+  res.setHeader('content-type', 'text/javascript')
+  res.setHeader('cache-control', 'no-store')
   return res.end(
     `${req.query.callbackFn}(${statusCode},${JSON.stringify({
       callbackId: req.query.callbackId,
@@ -18,6 +20,7 @@ router.get('/JSONP', (req, res) => {
 })
 
 router.get('/SubHostProxy/proxyPage', (req, res) => {
+  res.setHeader('content-type', 'text/html')
   return res.render('SubHostProxyProxyPage.pug')
 })
 
@@ -42,6 +45,8 @@ router.post('/SubHostProxy', (req, res) => {
 router.get('/MockForm', (req, res) => {
   const msg = `Your request message is ${req.query.message}`
   const statusCode = '1'
+  res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'no-store')
   return res.render('MockFormCallbackPage.pug', {
     statusCode,
     callbackFn: req.query.callbackFn,
@@ -55,6 +60,8 @@ router.get('/MockForm', (req, res) => {
 router.post('/MockForm', (req, res) => {
   const msg = `Your request message is ${req.body.message}`
   const statusCode = '1'
+  res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'no-store')
   return res.render('MockFormCallbackPage.pug', {
     statusCode,
     callbackFn: req.body.callbackFn,
@@ -68,6 +75,8 @@ router.post('/MockForm', (req, res) => {
 router.get('/WindowName', (req, res) => {
   const msg = `Your request message is ${req.query.message}`
   const statusCode = '1'
+  res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'no-store')
   return res.render('WindowNameRedirectPage.pug', {
     redirect: req.query.redirect,
     res: {
@@ -83,6 +92,8 @@ router.get('/WindowName', (req, res) => {
 router.post('/WindowName', (req, res) => {
   const msg = `Your request message is ${req.body.message}`
   const statusCode = '1'
+  res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'no-store')
   return res.render('WindowNameRedirectPage.pug', {
     redirect: req.body.redirect,
     res: {
@@ -98,6 +109,8 @@ router.post('/WindowName', (req, res) => {
 router.get('/WindowHash', (req, res) => {
   const msg = `Your request message is ${req.query.message}`
   const statusCode = '1'
+  res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'no-store')
   return res.render('WindowHashWorkPage.pug', {
     refererUrl: req.query.refererUrl,
     res: {
@@ -113,6 +126,8 @@ router.get('/WindowHash', (req, res) => {
 router.post('/WindowHash', (req, res) => {
   const msg = `Your request message is ${req.body.message}`
   const statusCode = '1'
+  res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'no-store')
   return res.render('WindowHashWorkPage.pug', {
     refererUrl: req.body.refererUrl,
     res: {
@@ -126,6 +141,7 @@ router.post('/WindowHash', (req, res) => {
 })
 
 router.get('/PostMessage/proxyPage', (req, res) => {
+  res.setHeader('content-type', 'text/html')
   return res.render('PostMessageProxyPage.pug')
 })
 
