@@ -42,13 +42,14 @@ Mac/Linux 系统一般是在 `/etc/hosts`。
 127.0.0.1 api.demo.com
 ```
 
-启动服务器。
+启动服务器。  
+该命令将并行启动三个服务，仅 bash 能用。
 
 ```bash
 npm start
 ```
 
-上面命令将并行启动三个服务器，也可以分开启动。
+非 bash shell 请分别在不同的窗口运行如下命令。
 
 ```bash
 npm run proxy
