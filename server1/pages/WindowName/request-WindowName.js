@@ -6,6 +6,7 @@ function request(method = 'GET', url, data = null) {
     // In actual use, the iframe needs to be hidden.
     const iframe = document.createElement('iframe')
     iframe.name = id
+    iframe.src = '#'
     iframe.onload = function (event) {
       // We cannot get accurate server status.
       if (event.target.contentWindow.length === 0) {
