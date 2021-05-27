@@ -6,7 +6,7 @@
 
 跨源（跨域）方案的演示集合（下统一称跨源），可在本地演示下列方案，包含前后端完整代码。  
 后端主要基于 Express 开发，前端不依赖任何第三方，源码带有完善注释，力求用最直接简洁的方式让使用者学会跨源方案的原理。  
-配合本人的解析原理的博客文章食用更加：[传送门](https://segmentfault.com/a/1190000014223524) 。
+配合本人的解析原理的博客文章食用更加：[传送门](https://segmentfault.com/a/1190000040070036) 。
 
 - [x] JSON-P（自填充 JSON）
 - [x] HTML-P/MockForm（自填充 HTML/模拟表单）
@@ -60,7 +60,7 @@ npm run server2
 
 ![index](https://calimanco.github.io/cross-origin-demo/index.png)
 
-点击上面的连接即可进入该跨源方案的案例界面。  
+点击上面的连接即可进入该跨源方案的案例界面。
 
 ![index](https://calimanco.github.io/cross-origin-demo/page.png)
 
