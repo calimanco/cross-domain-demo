@@ -22,12 +22,12 @@
 
 ```bash
 git clone https://github.com/calimanco/cross-origin-demo.git
-cd cross-origin-demo
 ```
 
 如果你只是演示用，只安装 dependencies 的包即可。
 
 ```bash
+cd cross-origin-demo
 npm install --production
 ```
 
@@ -49,11 +49,15 @@ Mac/Linux 系统一般是在 `/etc/hosts`。
 npm start
 ```
 
-非 bash shell 请分别在不同的窗口运行如下命令。
+非 bash shell 请分别在不同的 shell 窗口运行如下命令：
 
 ```bash
 npm run proxy
+```
+```bash
 npm run server1
+```
+```bash
 npm run server2
 ```
 
@@ -116,6 +120,12 @@ iframe.onload = function (event) {
   // do something
 }
 ```
+
+## 关于 iframe 会 onload 两次的解决 hack 方法
+
+经过测试在 Chrome、Safari、Edge 等 WebKit 衍生浏览器上 iframe 即使没有设置 src ，也会在 append 进页面后 onload 一次，设置 src 跳转后会 onload 第二次。  
+本项目几个方案都需要使用 form 去触发 iframe 跳转，因此初始化的第一次 onload 是不符合预期的。  
+解决办法是在初始化时，设置为 `iframe.src = '#'`。
 
 ## 提示
 
