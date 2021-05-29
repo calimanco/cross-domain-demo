@@ -61,6 +61,9 @@ function initMessageListener() {
         resolve,
         reject
       }
+    },
+    del: function (callbackId) {
+      delete cbStore[callbackId]
     }
   }
 }

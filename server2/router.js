@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
+const webOrigin = 'http://demo.com'
+
 router.get('/error', (req, res) => {
   res.statusCode = 500
   return res.end()
@@ -21,6 +23,7 @@ router.get('/JSONP', (req, res) => {
 
 router.get('/SubHostProxy/proxyPage', (req, res) => {
   res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'public,max-age=604800')
   return res.render('SubHostProxyProxyPage.pug')
 })
 
@@ -142,6 +145,7 @@ router.post('/WindowHash', (req, res) => {
 
 router.get('/PostMessage/proxyPage', (req, res) => {
   res.setHeader('content-type', 'text/html')
+  res.setHeader('cache-control', 'public,max-age=604800')
   return res.render('PostMessageProxyPage.pug')
 })
 
@@ -163,47 +167,71 @@ router.post('/PostMessage', (req, res) => {
   })
 })
 
-const CORSHeader = {
-  'Access-Control-Allow-Origin': 'http://demo.com',
+const preflightHeader = {
+  'Access-Control-Allow-Origin': webOrigin,
   'Access-Control-Allow-Methods': ['POST', 'GET', 'OPTIONS'],
-  'Access-Control-Allow-Headers': ['Content-Type']
+  'Access-Control-Allow-Headers': ['Content-Type', 'token'],
+  Vary: 'Origin'
+}
+
+const normalHeader = {
+  'Access-Control-Allow-Origin': webOrigin,
+  Vary: 'Origin'
 }
 
 router.options('/CORS', (req, res) => {
-  for (const i of Object.keys(CORSHeader)) {
-    res.setHeader(i, CORSHeader[i])
+  const { origin } = req.headers
+  if (origin === webOrigin) {
+    for (const i of Object.keys(preflightHeader)) {
+      res.setHeader(i, preflightHeader[i])
+    }
+    res.end()
+  } else {
+    res.statusCode = 403
+    res.end()
   }
-  res.end()
 })
 
 router.get('/CORS', (req, res) => {
   const msg = `Your request message is ${req.query.message}`
   const statusCode = '1'
-  for (const i of Object.keys(CORSHeader)) {
-    res.setHeader(i, CORSHeader[i])
+  const { origin } = req.headers
+  if (origin === webOrigin) {
+    for (const i of Object.keys(normalHeader)) {
+      res.setHeader(i, normalHeader[i])
+    }
+    return res.json({
+      statusCode,
+      data: { msg }
+    })
+  } else {
+    res.statusCode = 403
+    res.end()
   }
-  return res.json({
-    statusCode,
-    data: { msg }
-  })
 })
 
 router.post('/CORS', (req, res) => {
   const msg = `Your request message is ${req.body.message}`
   const statusCode = '1'
-  for (const i of Object.keys(CORSHeader)) {
-    res.setHeader(i, CORSHeader[i])
+  const { origin } = req.headers
+  if (origin === webOrigin) {
+    for (const i of Object.keys(normalHeader)) {
+      res.setHeader(i, normalHeader[i])
+    }
+    return res.json({
+      statusCode,
+      data: { msg }
+    })
+  } else {
+    res.statusCode = 403
+    res.end()
   }
-  return res.json({
-    statusCode,
-    data: { msg }
-  })
 })
 
 router.get('/CORS/error', (req, res) => {
   res.statusCode = 500
-  for (const i of Object.keys(CORSHeader)) {
-    res.setHeader(i, CORSHeader[i])
+  for (const i of Object.keys(normalHeader)) {
+    res.setHeader(i, normalHeader[i])
   }
   return res.end()
 })

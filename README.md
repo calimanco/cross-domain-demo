@@ -54,9 +54,11 @@ npm start
 ```bash
 npm run proxy
 ```
+
 ```bash
 npm run server1
 ```
+
 ```bash
 npm run server2
 ```
